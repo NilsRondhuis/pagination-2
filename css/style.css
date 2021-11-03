@@ -1,0 +1,19 @@
+.section {
+    padding: 40px 0;
+}
+.section__cards {
+}
+.pag-list {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.pag-list__item {
+    padding: 10px;
+    border: 1px solid black;
+    cursor: pointer;
+}
+.pag-list__item:not(:last-child) {
+    margin-right: 10px;
+}
