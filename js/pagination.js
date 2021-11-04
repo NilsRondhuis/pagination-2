@@ -13,23 +13,78 @@ let users = [
     { name: 'Andri', surname: 'Shevchenko', team: 'Chelsea', id: '12'},
     { name: 'Rinat', surname: 'Akhmetov', team: 'Shakhtar', id: '13'},
     { name: 'Alexandr', surname: 'Aliev', team: 'Atletico', id: '14'},
+    { name: 'Tibo', surname: 'Kurtuis', team: 'Vorskla', id: '15'},
 ];
 
 let refs = {
-    pag: document.querySelectorAll('.pag-list__item'),
+    pagList: document.querySelector('.pag-list'),
+    cards: document.querySelector('.section__cards'),
 };
 
 let notesOfPage = 3;
+let countOfItems = Math.ceil(users.length / notesOfPage);
+let pagItem = [];
+let initialPage = 1;
 
-refs.pag.forEach(items => {
+for(let i = 1; i <= countOfItems; i++) {
+    let li = document.createElement('li');
+    li.textContent = i;
+    li.classList.add('pag-list__item');
+    refs.pagList.appendChild(li);
+    pagItem.push(li);
+};
+
+function showPage(init) {
+    let start = (init - 1) * notesOfPage;
+    let end = start + notesOfPage;
+    let notes = users.slice(start, end);
+    
+    let result = notes.map(note => {
+        return `<li>
+        <h1>${note.name}</h1>
+        <p>${note.surname}</p>
+        <p>${note.team}</p>
+        </li>`
+    });
+    refs.cards.innerHTML = result.join('');
+    pagItem[0].classList.add('active');
+}
+showPage(initialPage);
+
+pagItem.forEach(items => {
     items.addEventListener('click', (e) => {
-        let pageNum = +e.target.textContent;
-
-        let start = (pageNum - 1) * notesOfPage;
-        console.log(start);
-        let end = start + notesOfPage;
-        console.log(end);
-        let notes = users.slice(start, end);
-        console.log(notes);
+        showPage(+e.target.textContent);
+        pagItem.forEach(item => {
+            if (item.classList.contains('active')) {
+                item.classList.remove('active');
+            }
+        });
+        items.classList.add('active');
     });
 });
+
+// pagItem.forEach(items => {
+//     items.addEventListener('click', (e) => {
+//         let pageNum = +e.target.textContent;
+
+//         pagItem.forEach(item => {
+//             if (item.classList.contains('active')) {
+//                 item.classList.remove('active');
+//             }
+//         });
+//         items.classList.add('active');
+
+//         let start = (pageNum - 1) * notesOfPage;
+//         let end = start + notesOfPage;
+//         let notes = users.slice(start, end);
+
+//         let result = notes.map(note => {
+//             return `<li>
+//             <h1>${note.name}</h1>
+//             <p>${note.surname}</p>
+//             <p>${note.team}</p>
+//             </li>`
+//         });
+//         refs.cards.innerHTML = result.join('');
+//     });
+// });
